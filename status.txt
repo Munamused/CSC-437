@@ -1,0 +1,3 @@
+Reformat couple page
+    add arrow to go back to couple from partners
+    
