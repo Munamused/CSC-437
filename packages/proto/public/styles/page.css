@@ -2,28 +2,42 @@
 html {
     background-color: var(--color-primary-background);
 }
+/* How do i style svg icons seperately? */
+svg.icon {
+  display: inline;
+  justify-content: center;
+  height: 5em;
+  width: 5em;
+  vertical-align: top;
+  margin-top: 15px;
+  fill: var(--color-text-primary);
+}
 header {
-    font-family: var(--font-primary);
+    display: flex;
+    align-items: center;
+    justify-content: left;
+    font-family: var(--font-primary-display);
     background-color: var(--color-secondary-background);
     color: var(--color-text-primary);
     padding: 1px;
 }
 h1 {
-    font-family: var(--font-primary);
-    text-align: center;
-    font-size: 60px;
+    font-family: var(--font-primary-display);
+    text-align: left;
+    font-size: 45px;
     color: var(--color-text-primary);
-    margin: 20px;
 }
 h2 {
-    font-family: var(--font-primary);
+    font-family: var(--font-primary-body);
+    font-weight: var(--font-primary-body-weight);
     text-align: center;
     font-size: 40px;
     color: var(--color-text-primary);
     margin: 20px;
 }
 p {
-    font-family: var(--font-primary);
+    font-family: var(--font-primary-body);
+    font-weight: var(--font-primary-body-weight);
     text-align: center;
     font-size: 20px;
     color: var(--color-text-primary);
@@ -38,7 +52,7 @@ li {
     text-align: center;
 }
 dl {
-    font-family: var(--font-primary);
+    font-family: var(--font-primary-display);
     text-align: center;
     font-size: 20px;
     color: var(--color-text-primary);
@@ -52,7 +66,8 @@ dd {
     margin: 0 0 40px 0;
 }
 a {
-    font-family: var(--font-primary);
+    font-family: var(--font-primary-body);
+    font-weight: var(--font-primary-body-weight);
     text-decoration: none;
     color: var(--color-text-secondary);
     font-size: 30px;
