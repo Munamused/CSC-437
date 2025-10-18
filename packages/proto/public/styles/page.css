@@ -2,24 +2,47 @@
 html {
     background-color: var(--color-primary-background);
 }
-/* How do i style svg icons seperately? */
-svg.icon {
+.parent {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+}
+.Garden {
+    display: grid;
+    grid-template-rows: [start] 1fr 1fr 1fr 1fr 1fr 1fr [end];
+    gap: var(--size-spacing-small);
+}
+.icon-logo {
   display: inline;
   justify-content: center;
-  height: 5em;
-  width: 5em;
-  vertical-align: top;
-  margin-top: 15px;
+  height: 1.8em;
+  width: 1.8em;
+  vertical-align: middle;
+  fill: var(--color-text-primary);
+}
+.icon-inline {
+  display: inline;
+  height: 0.8em;
+  width: 0.8em;
+  vertical-align: middle;
   fill: var(--color-text-primary);
 }
 header {
     display: flex;
-    align-items: center;
-    justify-content: left;
+    align-items: baseline;
+    justify-content: space-between;
+    text-align: center;
+    gap: 2rem;
     font-family: var(--font-primary-display);
     background-color: var(--color-secondary-background);
     color: var(--color-text-primary);
     padding: 1px;
+}
+title {
+    font-family: var(--font-primary-display);
+    font-size: 45px;
+    color: var(--color-text-primary);
 }
 h1 {
     font-family: var(--font-primary-display);
@@ -44,6 +67,9 @@ p {
     margin: 20px;
 }
 ul {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: var(--size-spacing-medium);
     list-style-type: none;
     padding: 0;
 }
