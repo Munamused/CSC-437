@@ -6,4 +6,7 @@
     --color-secondary-background: #9FADA0;
     --color-text-primary: rgb(6, 5, 56);
     --color-text-secondary: rgb(3, 94, 44);
+    --size-spacing-large: 20px;
+    --size-spacing-medium: 10px;
+    --size-spacing-small: 5px;
 }
