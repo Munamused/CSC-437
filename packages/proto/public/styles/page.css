@@ -1,6 +1,9 @@
 /* styles/page.css */
-html {
+body {
+    width: 100%;
+    height: 100%;
     background-color: var(--color-primary-background);
+    color: var(--color-text-primary);
 }
 .parent {
   display: flex;
@@ -36,26 +39,22 @@ header {
     gap: 2rem;
     font-family: var(--font-primary-display);
     background-color: var(--color-secondary-background);
-    color: var(--color-text-primary);
     padding: 1px;
 }
 title {
     font-family: var(--font-primary-display);
     font-size: 45px;
-    color: var(--color-text-primary);
 }
 h1 {
     font-family: var(--font-primary-display);
     text-align: left;
     font-size: 45px;
-    color: var(--color-text-primary);
 }
 h2 {
     font-family: var(--font-primary-body);
     font-weight: var(--font-primary-body-weight);
     text-align: center;
     font-size: 40px;
-    color: var(--color-text-primary);
     margin: 20px;
 }
 p {
@@ -63,7 +62,6 @@ p {
     font-weight: var(--font-primary-body-weight);
     text-align: center;
     font-size: 20px;
-    color: var(--color-text-primary);
     margin: 20px;
 }
 ul {
@@ -81,7 +79,6 @@ dl {
     font-family: var(--font-primary-display);
     text-align: center;
     font-size: 20px;
-    color: var(--color-text-primary);
     margin: 20px;
 }
 dt {

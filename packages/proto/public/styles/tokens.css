@@ -4,9 +4,31 @@
     --font-primary-display: 'Nunito', sans-serif;
     --color-primary-background: #D6E1D5;
     --color-secondary-background: #9FADA0;
-    --color-text-primary: rgb(6, 5, 56);
-    --color-text-secondary: rgb(3, 94, 44);
+    --color-text-primary: #022504;
+    --color-text-secondary: #035E2C;
     --size-spacing-large: 20px;
     --size-spacing-medium: 10px;
     --size-spacing-small: 5px;
+}
+
+body.pink-mode {
+    /* Pink mode colors */
+    --color-primary-background: #ffdbe8;
+    --color-secondary-background: #f4afc6;
+    --color-text-primary: #660029;
+    --color-text-secondary: #76284e;
+}
+body.blue-mode {
+    /* Blue mode colors */
+    --color-primary-background: #d7e0ff;
+    --color-secondary-background: #9fbedf;
+    --color-text-primary: #001f66;
+    --color-text-secondary: #0d3c8e;
+}
+body.dark-mode {
+    /* Dark mode colors */
+    --color-primary-background: #333333;
+    --color-secondary-background: #1e1e1e;
+    --color-text-primary: #f0f0f0;
+    --color-text-secondary: #cfcfcf;
 }
