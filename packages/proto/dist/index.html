@@ -6,19 +6,17 @@
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap" rel="stylesheet">
         <link rel="stylesheet" href="/styles/reset.css" />
-        <link rel="stylesheet" href="/styles/tokens.css" />
+         <link rel="stylesheet" href="/styles/tokens.css" />
         <link rel="stylesheet" href="/styles/page.css" />
     </head>
-    <body>
+    <body class = "parent">
         <header>
-            <a href="index.html">
-                <h1>
-                    <svg class="icon-logo">
-                        <use href="/icons/garden.svg#icon-garden-love" />
-                    </svg>
-                    The Garden
-                </h1>
-            </a>
+            <a href="index.html"><h1>
+                <svg class="icon-logo">
+                <use href="/icons/garden.svg#icon-garden-love" />
+            </svg>
+                The Garden
+            </h1></a>
             <section class="Couple">
                 <a href="couple.html">
                     <h2> 
@@ -29,10 +27,26 @@
                     </h2>
                 </a>
             </section>
-        </header>
-        <a href="couple.html">← Back to Couple</a>
-        <h2>Partner 1's Name</h2>
-        <p>Details about the partner.</p>
+        </header> 
+        <h2>Garden</h2>
+            <section class="Garden">  
+            <ul>
+                <li>
+                    <a href="memories.html">Flowers</a>
+                </li>
+            </ul>
+        </section>
     </body>
+    <footer>
+        <label>
+            <select id="color-mode-toggle">
+                <option value="default">Default Mode</option>
+                <option value="pink">Pink Mode</option>
+                <option value="blue">Blue Mode</option>
+                <option value="dark">Dark Mode</option>
+            </select>
+            Color Mode
+        </label>
+        </footer>
     <script src="/js_files/colormode.js"></script>
 </html>
