@@ -3,14 +3,10 @@
   "version": "1.0.0",
   "main": "index.html",
   "scripts": {
-<<<<<<< HEAD
-    "start": "http-server -p 3000",
-=======
-    "dev": "npx vite",
-    "build": "npx tsc && npx vite build",
     "start": "http-server dist -p 3000",
->>>>>>> dev
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "npx vite",
+    "build": "npx tsc && npx vite build"
   },
   "author": "",
   "license": "ISC",
