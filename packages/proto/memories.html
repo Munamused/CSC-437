@@ -5,15 +5,15 @@
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap" rel="stylesheet">
-        <link rel="stylesheet" href="/styles/reset.css" />
-        <link rel="stylesheet" href="/styles/tokens.css" />
-        <link rel="stylesheet" href="/styles/page.css" />
+        <link rel="stylesheet" href="./styles/reset.css" />
+        <link rel="stylesheet" href="./styles/tokens.css" />
+        <link rel="stylesheet" href="./styles/page.css" />
     </head>
     <body>
         <header>
             <a href="index.html"><h1>
                 <svg class="icon-logo">
-                <use href="/icons/garden.svg#icon-garden-love" />
+                <use href="./icons/garden.svg#icon-garden-love" />
             </svg>
                 The Garden
             </h1></a>
@@ -21,7 +21,7 @@
                 <a href="couple.html">
                     <h2> 
                         <svg class="icon-inline">
-                            <use href="/icons/heart.svg#icon-heart" />
+                            <use href="./icons/heart.svg#icon-heart" />
                         </svg>
                         Couple
                     </h2>
@@ -30,31 +30,23 @@
         </header>
         <section class="Garden">
             <div class="memories-grid">
-                <memory-card img-src="/assets/photos/photo1.jpg" date="2023-06-12" location="Botanical Garden">
+                <memory-card img-src="./assets/photos/photo1.jpg" date="2023-06-12" location="Botanical Garden">
                     <h3 slot="title">Memory1</h3>
                     <p>We walked through the garden and laughed at funny shaped cactus.</p>
                 </memory-card>
 
-                <memory-card img-src="/assets/photos/photo2.jpg" date="2024-05-03" location="Park">
+                <memory-card img-src="./assets/photos/photo2.jpg" date="2024-05-03" location="Park">
                     <h3 slot="title">Memory2</h3>
                     <p>Picnic at the park, had yummy sandwiches.</p>
                 </memory-card>
 
-                <memory-card img-src="/assets/photos/photo3.jpg" date="2022-10-01" location="Downtown">
+                <memory-card img-src="./assets/photos/photo3.jpg" date="2022-10-01" location="Downtown">
                     <h3 slot="title">Memory3</h3>
                     <p>First Date.</p>
                 </memory-card>
             </div>
         </section>
-        <script type="module" src="/js_files/memory-card.js"></script>
+        <script type="module" src="./js_files/memory-card.js"></script>
     </body>
-    <script src="/js_files/colormode.js"></script>
-    <script type="module">
-        import { define } from "@calpoly/mustang";
-        import { MemoryCardElement } from "/src/memory-card.ts";
-
-        define({
-            "memory-card": MemoryCardElement
-        });
-    </script>
+    <script src="./js_files/colormode.js"></script>
 </html>
