@@ -43,11 +43,13 @@ app.get('/users/:userid', async (req: Request, res: Response) => {
 async function start() {
   // init DB pool
   initPool();
-  // ensure schema exists
-  try {
-    await Users.initSchema();
-  } catch (e) {
-    console.warn('Could not initialize schema', e);
+  // ensure schema exists (run in background so server can start even if DB is down)
+  if (process.env.SKIP_DB_INIT !== '1') {
+    Users.initSchema().catch((e) => {
+      console.warn('Could not initialize schema', e);
+    });
+  } else {
+    console.log('Skipping DB schema initialization (SKIP_DB_INIT=1)');
   }
 
   app.listen(port, () => {
