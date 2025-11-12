@@ -2,11 +2,10 @@ services:
   - type: web
     name: csc-437
     env: node
-    root: packages/server
     plan: free
     autoDeploy: true
-    buildCommand: npm install && npm run build
-    startCommand: npm run start
+    buildCommand: cd packages/server && npm install && npm run build
+    startCommand: cd packages/server && npm run start
     envVars:
       - key: POSTGRES_URI
         sync: false
