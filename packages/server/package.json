@@ -1,0 +1,31 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "description": "Express + TypeScript backend using PostgreSQL (pg)",
+  "main": "dist/index.js",
+  "scripts": {
+    "dev": "nodemon",
+  "build": "tsc",
+    "start": "npm run build && npm run start:node",
+    "start:node": "node dist/index.js",
+    "start:proto": "cross-env STATIC=../proto/dist npm run start",
+    "check": "tsc --noEmit"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^16.0.0",
+    "express": "^4.18.2",
+    "pg": "^8.11.0"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.17",
+    "@types/node": "^20.4.2",
+  "@types/pg": "^8.6.6",
+    "cross-env": "^7.0.3",
+  "esbuild": "^0.17.19",
+    "nodemon": "^3.0.1",
+    "typescript": "^5.4.2"
+  }
+}
