@@ -1,2 +1,3 @@
 packages/server/.env
-status.txt
+# Environment variables for the server package
+important.txt
