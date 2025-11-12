@@ -1,1 +1,2 @@
-./packages/server/.env
+packages/server/.env
+status.txt
