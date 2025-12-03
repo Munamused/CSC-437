@@ -5,6 +5,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const users_1 = __importDefault(require("./routes/users"));
+const memories_1 = __importDefault(require("./routes/memories"));
 const mongo_1 = require("./services/mongo");
 (0, mongo_1.connect)("thegarden");
 const app = (0, express_1.default)();
@@ -18,6 +19,8 @@ app.get("/hello", (req, res) => {
 });
 // Mount users API router at /api/users
 app.use("/api/users", users_1.default);
+// Mount memories API router at /api/memories
+app.use("/api/memories", memories_1.default);
 app.listen(port, () => {
     console.log(`Server running at http://localhost:${port}`);
 });
