@@ -1,60 +1,32 @@
 import express, { Request, Response } from "express";
-import { initPool } from "./services/db";
 import Users from "./services/user-svc";
-import dotenv from "dotenv";
 
-dotenv.config();
+import { connect } from "./services/mongo";
+
+connect("thegarden");
 
 const app = express();
 const port = process.env.PORT || 3000;
 const staticDir = process.env.STATIC || "public";
 
-app.use(express.json());
-
-// serve static files (proto build output)
 app.use(express.static(staticDir));
 
 app.get("/hello", (req: Request, res: Response) => {
-  res.send("Hello, World");
+    res.send("Hello, World");
 });
 
-app.get('/users', async (req: Request, res: Response) => {
-  try {
-    const list = await Users.index();
-    res.json(list);
-  } catch (e) {
-    console.error(e);
-    res.status(500).send();
-  }
-});
-
-app.get('/users/:userid', async (req: Request, res: Response) => {
+app.get("/users/:userid", (req: Request, res: Response) => {
   const { userid } = req.params;
-  try {
-    const t = await Users.get(userid);
-    if (t) res.json(t);
-    else res.status(404).send();
-  } catch (e) {
-    console.error(e);
-    res.status(500).send();
-  }
+
+  Users.get(userid).then((data) => {
+    if (data) res
+      .set("Content-Type", "application/json")
+      .send(JSON.stringify(data));
+    else res
+      .status(404).send();
+  });
 });
 
-async function start() {
-  // init DB pool
-  initPool();
-  // ensure schema exists (run in background so server can start even if DB is down)
-  if (process.env.SKIP_DB_INIT !== '1') {
-    Users.initSchema().catch((e) => {
-      console.warn('Could not initialize schema', e);
-    });
-  } else {
-    console.log('Skipping DB schema initialization (SKIP_DB_INIT=1)');
-  }
-
-  app.listen(port, () => {
-    console.log(`Server running at http://localhost:${port}`);
-  });
-}
-
-start();
+app.listen(port, () => {
+  console.log(`Server running at http://localhost:${port}`);
+});

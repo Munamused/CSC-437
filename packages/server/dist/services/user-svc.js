@@ -1,39 +1,22 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.initSchema = initSchema;
-exports.index = index;
-exports.get = get;
-exports.create = create;
-const db_1 = require("./db");
-async function initSchema() {
-    const sql = `
-    CREATE TABLE IF NOT EXISTS users (
-      userid TEXT PRIMARY KEY,
-      name TEXT NOT NULL,
-      nickname TEXT,
-      color TEXT
-    );
-  `;
-    await (0, db_1.query)(sql);
+// src/services/traveler-svc.ts
+const mongoose_1 = require("mongoose");
+const UserSchema = new mongoose_1.Schema({
+    userid: { type: String, required: true, trim: true },
+    name: { type: String, required: true, trim: true },
+    nickname: { type: String, trim: true },
+    color: String
+}, { collection: "thegarden_users" });
+const UserModel = (0, mongoose_1.model)("Profile", UserSchema);
+function index() {
+    return UserModel.find();
 }
-async function index() {
-    const res = await (0, db_1.query)('SELECT * FROM users');
-    // @ts-ignore
-    return res.rows || [];
+function get(userid) {
+    return UserModel.find({ userid })
+        .then((list) => list[0])
+        .catch((err) => {
+        throw `${userid} Not Found`;
+    });
 }
-async function get(userid) {
-    const res = await (0, db_1.query)('SELECT * FROM users WHERE userid = $1 LIMIT 1', [userid]);
-    // @ts-ignore
-    const rows = res.rows || [];
-    return rows.length ? rows[0] : null;
-}
-async function create(t) {
-    await (0, db_1.query)(`INSERT INTO users(userid, name, nickname, color)
-    VALUES($1,$2,$3,$4,$5,$6,$7)
-    ON CONFLICT (userid) DO UPDATE SET
-      name = EXCLUDED.name,
-      nickname = EXCLUDED.nickname,
-      color = EXCLUDED.color
-  `, [t.userid, t.name, t.nickname || null, t.color || null]);
-}
-exports.default = { initSchema, index, get, create };
+exports.default = { index, get };
