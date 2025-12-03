@@ -19,4 +19,14 @@ function get(userid) {
         throw `${userid} Not Found`;
     });
 }
-exports.default = { index, get };
+function create(user) {
+    const u = new UserModel(user);
+    return u.save();
+}
+function update(userid, user) {
+    return UserModel.findOneAndUpdate({ userid }, user, { new: true }).then((doc) => doc);
+}
+function remove(userid) {
+    return UserModel.findOneAndDelete({ userid }).then((doc) => doc);
+}
+exports.default = { index, get, create, update, remove };

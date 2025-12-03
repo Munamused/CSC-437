@@ -1,5 +1,5 @@
 // src/services/traveler-svc.ts
-import { Schema, model } from "mongoose";
+import { ModifyResult, Schema, model } from "mongoose";
 import { User } from "../models/user";
 
 const UserSchema = new Schema<User>(
@@ -29,4 +29,19 @@ function get(userid: String): Promise<User | null> {
     });
 }
 
-export default { index, get };
+function create(user: User): Promise<User> {
+  const u = new UserModel(user);
+  return u.save();
+}
+
+function update(userid: String, user: Partial<User>): Promise<User | null> {
+  return UserModel.findOneAndUpdate({ userid }, user, { new: true }).then(
+    (doc) => doc
+  );
+}
+
+function remove(userid: String): Promise<User | null> {
+  return UserModel.findOneAndDelete({ userid }).then((doc) => doc as unknown as User | null);
+}
+
+export default { index, get, create, update, remove };

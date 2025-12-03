@@ -3,4 +3,5 @@ export interface User {
   name: string;
   nickname?: string | null;
   color?: string | null;
+  partnerid?: string | null;
 }
