@@ -38,7 +38,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const users_1 = __importDefault(require("./routes/users"));
-const memories_1 = __importDefault(require("./routes/memories"));
+const memory_1 = __importDefault(require("./routes/memory"));
 const auth_1 = __importStar(require("./routes/auth"));
 const promises_1 = __importDefault(require("node:fs/promises"));
 const path_1 = __importDefault(require("path"));
@@ -62,8 +62,8 @@ app.get("/hello", (req, res) => {
 // Mount users API router at /api/users
 // /me endpoint is public, others require auth
 app.use("/api/users", users_1.default);
-// Mount memories API router at /api/memories (protected)
-app.use("/api/memories", auth_1.authenticateUser, memories_1.default);
+// Mount memories API router at /api/memory (protected)
+app.use("/api/memory", auth_1.authenticateUser, memory_1.default);
 // Mount auth routes at /auth
 app.use("/auth", auth_1.default);
 app.use("/app", (req, res) => {

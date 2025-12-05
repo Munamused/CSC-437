@@ -4,7 +4,7 @@ import { Msg } from "./messages";
 import { Model, init } from "./model";
 import update from "./update";
 import TheGardenHeader from "./components/thegarden-header";
-import { HomeView } from "./views/home-view";
+import { HomeViewElement } from "./views/home-view";
 
 const routes = [
   {
@@ -63,9 +63,9 @@ define({
     extends Store.Provider<Model, Msg>
   {
     constructor() {
-      super(update, init, "blazing:auth");
+      super(update, init, "thegarden:auth");
     }
   },
   "thegarden-header": TheGardenHeader,
-  "home-view": HomeView
+  "home-view": HomeViewElement
 });

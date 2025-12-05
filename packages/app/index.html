@@ -13,12 +13,14 @@
   <body>
       <mu-auth provides="thegarden:auth">
         <mu-history provides="thegarden:history">
-          <mu-auth provides="thegarden:auth" redirect="/login.html">
-            <article class="page">
-              <thegarden-header></thegarden-header>
-              <mu-switch></mu-switch>
-            </article>
-          </mu-auth>
+          <mu-store provides="thegarden:model" @update="import('./src/update.ts')">
+            <mu-auth provides="thegarden:auth" redirect="/login.html">
+              <article class="page">
+                <thegarden-header></thegarden-header>
+                <mu-switch></mu-switch>
+              </article>
+            </mu-auth>
+          </mu-store>
         </mu-history>
       </mu-auth>
 
@@ -58,14 +60,14 @@
             // Token is invalid (e.g., server restarted), clear it
             console.log('Token validation failed, clearing localStorage');
             try {
-              localStorage.removeItem('thegarden:token');
+              localStorage.clear();
             } catch (e) {}
           }
         } catch (err) {
           console.error('Failed to fetch user info:', err);
           // Clear token on error
           try {
-            localStorage.removeItem('thegarden:token');
+            localStorage.clear();
           } catch (e) {}
         }
       }
@@ -80,7 +82,7 @@
         }, 100);
       }
 
-      // Listen for login events from login form - only on initial signin event
+      // Listen for login events from login form
       let isProcessing = false;
       window.addEventListener('auth:message', async (evt) => {
         const [action, detail] = evt.detail || [];

@@ -62,6 +62,9 @@ export class TheGardenHeader extends LitElement {
     return html`
       <button
         @click=${(e: UIEvent) => {
+          try {
+            localStorage.clear();
+          } catch (err) {}
           Events.relay(e, "auth:message", ["auth/signout"]);
         }}
       >

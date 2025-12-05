@@ -9,17 +9,19 @@
     <link rel="stylesheet" href="/styles/tokens.css" />
     <link rel="stylesheet" href="/styles/page.css" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <script type="module" crossorigin src="/assets/index-DlZq_eET.js"></script>
+    <script type="module" crossorigin src="/assets/index-CQmc5ljy.js"></script>
   </head>
   <body>
       <mu-auth provides="thegarden:auth">
         <mu-history provides="thegarden:history">
-          <mu-auth provides="thegarden:auth" redirect="/login.html">
-            <article class="page">
-              <thegarden-header></thegarden-header>
-              <mu-switch></mu-switch>
-            </article>
-          </mu-auth>
+          <mu-store provides="thegarden:model" @update="import('./src/update.ts')">
+            <mu-auth provides="thegarden:auth" redirect="/login.html">
+              <article class="page">
+                <thegarden-header></thegarden-header>
+                <mu-switch></mu-switch>
+              </article>
+            </mu-auth>
+          </mu-store>
         </mu-history>
       </mu-auth>
 

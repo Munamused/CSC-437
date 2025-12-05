@@ -14,6 +14,9 @@ const MemoryModel = (0, mongoose_1.model)("Memory", MemorySchema);
 function index() {
     return MemoryModel.find();
 }
+function indexByUser(userid) {
+    return MemoryModel.find({ userid });
+}
 function get(memoryid) {
     return MemoryModel.findOne({ memoryid }).then((doc) => doc);
 }
@@ -35,4 +38,4 @@ function remove(memoryid) {
         return doc;
     });
 }
-exports.default = { index, get, create, update, remove };
+exports.default = { index, indexByUser, get, create, update, remove };
