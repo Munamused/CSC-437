@@ -11,7 +11,7 @@
     </head>
     <body>
         <header>
-            <a href="index.html"><h1>
+            <a href="/index.html" target="_top" rel="noopener"><h1>
                 <svg class="icon-logo">
                 <use href="/icons/garden.svg#icon-garden-love" />
             </svg>
@@ -45,4 +45,31 @@
         </section>
     </body>
     <script src="/js_files/colormode.js"></script>
-    </html>
+        <script>
+            // If embedded in the SPA (iframe with ?embed=1) hide the page header
+            try {
+                const params = new URLSearchParams(window.location.search);
+                if (params.get('embed') === '1') {
+                    const hdr = document.querySelector('header');
+                    if (hdr) hdr.style.display = 'none';
+                    document.body.style.marginTop = '0';
+
+                    // Rewrite internal links so embedded navigation preserves ?embed=1
+                    const anchors = Array.from(document.querySelectorAll('a[href]'));
+                    anchors.forEach((a) => {
+                        try {
+                            const href = a.getAttribute('href') || '';
+                            // only rewrite same-origin HTML pages (no protocol or starting with / or relative)
+                            if (/\.html($|\?)/.test(href) && !/^https?:\/\//.test(href)) {
+                                const url = new URL(href, window.location.href);
+                                url.searchParams.set('embed', '1');
+                                a.setAttribute('href', url.pathname + url.search + url.hash);
+                            }
+                        } catch (e) {}
+                    });
+                }
+            } catch (e) {
+                // ignore
+            }
+        </script>
+        </html>

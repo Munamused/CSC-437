@@ -40,12 +40,20 @@ const express_1 = __importDefault(require("express"));
 const users_1 = __importDefault(require("./routes/users"));
 const memories_1 = __importDefault(require("./routes/memories"));
 const auth_1 = __importStar(require("./routes/auth"));
+const promises_1 = __importDefault(require("node:fs/promises"));
+const path_1 = __importDefault(require("path"));
 const mongo_1 = require("./services/mongo");
 (0, mongo_1.connect)("thegarden");
 const app = (0, express_1.default)();
 const port = process.env.PORT || 3000;
 const staticDir = process.env.STATIC || "public";
+// Serve the main static dir (configured via STATIC env)
 app.use(express_1.default.static(staticDir));
+const protoRoot = path_1.default.resolve(__dirname, "..", "..", "proto");
+app.use(express_1.default.static(protoRoot));
+// Keep serving the `proto/public` subfolder for predictable asset paths
+const protoPublic = path_1.default.resolve(__dirname, "..", "..", "proto", "public");
+app.use(express_1.default.static(protoPublic));
 // Middleware:
 app.use(express_1.default.json());
 app.get("/hello", (req, res) => {
@@ -57,6 +65,10 @@ app.use("/api/users", auth_1.authenticateUser, users_1.default);
 app.use("/api/memories", auth_1.authenticateUser, memories_1.default);
 // Mount auth routes at /auth
 app.use("/auth", auth_1.default);
+app.use("/app", (req, res) => {
+    const indexHtml = path_1.default.resolve(staticDir, "index.html");
+    promises_1.default.readFile(indexHtml, { encoding: "utf8" }).then((html) => res.send(html));
+});
 app.listen(port, () => {
     console.log(`Server running at http://localhost:${port}`);
 });

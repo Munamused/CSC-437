@@ -11,7 +11,7 @@
     </head>
     <body>
         <header>
-            <a href="index.html">
+            <a href="/index.html" target="_top" rel="noopener">
                 <h1>
                     <svg class="icon-logo">
                         <use href="/icons/garden.svg#icon-garden-love" />
@@ -35,4 +35,25 @@
         <p>Details about the partner.</p>
     </body>
     <script src="/js_files/colormode.js"></script>
-</html>
+        <script>
+            try {
+                if (new URLSearchParams(window.location.search).get('embed') === '1') {
+                                        const hdr = document.querySelector('header');
+                                        if (hdr) hdr.style.display = 'none';
+                                        document.body.style.marginTop = '0';
+                                        // rewrite internal links to keep embedding
+                                        const anchors = Array.from(document.querySelectorAll('a[href]'));
+                                        anchors.forEach((a) => {
+                                            try {
+                                                const href = a.getAttribute('href') || '';
+                                                if (/\.html($|\?)/.test(href) && !/^https?:\/\//.test(href)) {
+                                                    const url = new URL(href, window.location.href);
+                                                    url.searchParams.set('embed', '1');
+                                                    a.setAttribute('href', url.pathname + url.search + url.hash);
+                                                }
+                                            } catch (e) {}
+                                        });
+                }
+            } catch (e) {}
+        </script>
+        </html>

@@ -26,11 +26,63 @@
             <input type="password" name="password" />
           </label>
         </login-form>
+        <!-- Add a simple fallback submit button + script so the page works
+             even if the custom element isn't defined or hasn't loaded. -->
+        <div style="margin-top:0.75rem;">
+          <button id="login-fallback" type="button">Sign In</button>
+        </div>
       </main>
       <p
         >Or did you want to
             <a href="newuser.html">Sign up as a new user</a>?
       </p>
     </mu-auth>
+  <script>
+    // Fallback submit handler: collects inputs and POSTs JSON to /auth/login
+    (function () {
+      const btn = document.getElementById('login-fallback');
+      if (!btn) return;
+      btn.addEventListener('click', async () => {
+        const usernameEl = document.querySelector('input[name="username"]');
+        const passwordEl = document.querySelector('input[name="password"]');
+        const username = usernameEl ? usernameEl.value : '';
+        const password = passwordEl ? passwordEl.value : '';
+
+        try {
+          const res = await fetch('/auth/login', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ username, password })
+          });
+          if (!res.ok) {
+            const body = await res.text();
+            alert('Login failed: ' + res.status + '\n' + body);
+            return;
+          }
+          const json = await res.json();
+          // Dispatch a simple storage update and redirect if token provided
+          if (json.token) {
+            // store token in localStorage for the SPA/provider to pick up
+            localStorage.setItem('thegarden:token', json.token);
+            // notify Mustang auth provider via the same auth:message event
+            const evt = new CustomEvent('auth:message', {
+              bubbles: true,
+              composed: true,
+              detail: ['auth/signin', { token: json.token, redirect: '/' }]
+            });
+            // dispatch on window so providers listening in the document catch it
+            window.dispatchEvent(evt);
+            // follow redirect (server may include one later)
+            const redirect = (json.redirect) ? json.redirect : '/';
+            location.href = redirect;
+          } else {
+            alert('Login succeeded but no token returned');
+          }
+        } catch (err) {
+          alert('Login error: ' + err);
+        }
+      });
+    })();
+  </script>
   </body>
 </html>

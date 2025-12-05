@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/styles/reset.css" />
+    <link rel="stylesheet" href="/styles/tokens.css" />
+    <link rel="stylesheet" href="/styles/page.css" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+  </head>
+  <body>
+    <mu-history provides="thegarden:history">
+      <mu-auth
+        provides="thegarden:auth"
+        redirect="/login.html"
+        storage="local">
+        <article class="page">
+          <thegarden-header></thegarden-header>
+          <mu-switch></mu-switch>
+        </article>
+      </mu-auth>
+    </mu-history>
+
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>

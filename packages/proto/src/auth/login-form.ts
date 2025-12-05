@@ -1,4 +1,5 @@
-import { html, css, LitElement } from "lit";
+import { html, css } from "lit";
+import AuthConsumer from "./auth-consumer";
 import { property, state } from "lit/decorators.js";
 import reset from "../styles/reset.css.js";
 
@@ -7,7 +8,7 @@ interface LoginFormData {
   password?: string;
 }
 
-export class LoginFormElement extends LitElement {
+export class LoginFormElement extends AuthConsumer {
   @state()
   formData: LoginFormData = {};
 
@@ -116,8 +117,9 @@ export class LoginFormElement extends LitElement {
         }
       )
       .then((res) => {
-        if (!res.ok) throw new Error(`Login failed (${res.status})`);
-        return res.json();
+        if (res.status !== 200)
+          throw "Login failed";
+        else return res.json();
       })
       .then((json: object) => {
           const { token } = json as { token: string };
@@ -133,9 +135,9 @@ export class LoginFormElement extends LitElement {
           console.log("dispatching message", customEvent);
           this.dispatchEvent(customEvent);
       })
-      .catch((error: unknown) => {
-          console.error(error);
-          this.error = error instanceof Error ? error.message : String(error);
+      .catch((error: Error) => {
+          console.log(error);
+          this.error = error.toString();
       });
     }
   }

@@ -31,15 +31,11 @@ body {
   vertical-align: middle;
   fill: var(--color-text-primary);
 }
-header {
-    display: flex;
-    align-items: baseline;
-    justify-content: space-between;
-    text-align: center;
-    gap: 2rem;
+gd-header {
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
     font-family: var(--font-primary-display);
-    background-color: var(--color-secondary-background);
-    padding: 1px;
 }
 title {
     font-family: var(--font-primary-display);

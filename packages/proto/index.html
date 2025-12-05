@@ -10,16 +10,31 @@
         <link rel="stylesheet" href="/styles/page.css" />
     </head>
     <body class = "parent">
-        <header>
-            <a href="index.html"><h1>
+        <script type="module">
+          import { define, Auth } from "@calpoly/mustang";
+          import HeaderElement from "/src/header";
+
+          define({
+            "gd-header": HeaderElement,
+            "mu-auth": Auth.Provider
+          });
+
+          HeaderElement.initializeOnce();
+        </script>
+
+        <mu-auth provides="thegarden:auth">
+          <gd-header>
+            <a slot="brand" href="index.html">
+              <h1>
                 <svg class="icon-logo">
-                <use href="/icons/garden.svg#icon-garden-love" />
-            </svg>
+                  <use href="/icons/garden.svg#icon-garden-love" />
+                </svg>
                 The Garden
-            </h1></a>
-            <section class="Couple">
+              </h1>
+            </a>
+            <section slot="content" class="Couple">
                 <a href="couple.html">
-                    <h2> 
+                    <h2>
                         <svg class="icon-inline">
                             <use href="/icons/heart.svg#icon-heart" />
                         </svg>
@@ -27,7 +42,8 @@
                     </h2>
                 </a>
             </section>
-        </header> 
+          </gd-header>
+        </mu-auth>
         <h2>Garden</h2>
             <section class="Garden">  
             <ul>
@@ -36,6 +52,29 @@
                 </li>
             </ul>
         </section>
+        <script>
+          // Hide the header when embedded (iframe with ?embed=1) and rewrite internal links
+          try {
+            const params = new URLSearchParams(window.location.search);
+            if (params.get('embed') === '1') {
+              const hdr = document.querySelector('gd-header') || document.querySelector('header');
+              if (hdr) hdr.style.display = 'none';
+              document.body.style.marginTop = '0';
+
+              const anchors = Array.from(document.querySelectorAll('a[href]'));
+              anchors.forEach((a) => {
+                try {
+                  const href = a.getAttribute('href') || '';
+                  if (/\.html($|\?)/.test(href) && !/^https?:\/\//.test(href)) {
+                    const url = new URL(href, window.location.href);
+                    url.searchParams.set('embed', '1');
+                    a.setAttribute('href', url.pathname + url.search + url.hash);
+                  }
+                } catch (e) {}
+              });
+            }
+          } catch (e) {}
+        </script>
     </body>
     <footer>
         <label>
