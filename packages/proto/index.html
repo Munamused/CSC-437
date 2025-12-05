@@ -22,7 +22,7 @@
           HeaderElement.initializeOnce();
         </script>
 
-        <mu-auth provides="thegarden:auth">
+    <mu-auth provides="thegarden:auth">
           <gd-header>
             <a slot="brand" href="index.html">
               <h1>
@@ -44,6 +44,57 @@
             </section>
           </gd-header>
         </mu-auth>
+        <script>
+          // Get the current token from localStorage (if any)
+          function getStoredToken() {
+            try {
+              return localStorage.getItem('thegarden:token');
+            } catch (e) {
+              return null;
+            }
+          }
+
+          // Check if we have a stored token and update auth state on load
+          const token = getStoredToken();
+          if (token) {
+            // Dispatch signin event with stored token so Auth provider picks it up
+            const signinEvent = new CustomEvent('auth:message', {
+              bubbles: true,
+              composed: true,
+              detail: ['auth/signin', { token }]
+            });
+            document.dispatchEvent(signinEvent);
+            window.top?.dispatchEvent(signinEvent);
+          }
+
+          // Listen for login/logout events
+          window.addEventListener('auth:message', async (evt) => {
+            const [action, detail] = evt.detail || [];
+            if (action === 'auth/signin' && detail?.token) {
+              console.log('Auth message received: signin with token');
+              // After signin, fetch the current user info
+              try {
+                const res = await fetch('/api/users/me', {
+                  headers: { 'Authorization': `Bearer ${detail.token}` }
+                });
+                if (res.ok) {
+                  const userInfo = await res.json();
+                  console.log('User info fetched:', userInfo);
+                  // Dispatch another auth:message to update the provider with full user info
+                  const updateEvent = new CustomEvent('auth:message', {
+                    bubbles: true,
+                    composed: true,
+                    detail: ['auth/signin', { ...detail, ...userInfo }]
+                  });
+                  document.dispatchEvent(updateEvent);
+                  window.top?.dispatchEvent(updateEvent);
+                }
+              } catch (err) {
+                console.error('Failed to fetch user info:', err);
+              }
+            }
+          });
+        </script>
         <h2>Garden</h2>
             <section class="Garden">  
             <ul>

@@ -9,6 +9,8 @@
     --size-spacing-large: 20px;
     --size-spacing-medium: 10px;
     --size-spacing-small: 5px;
+    --color-border-primary: #ffffff;
+    --color-text-on-accent: #ffffff;
 }
 
 body.pink-mode {

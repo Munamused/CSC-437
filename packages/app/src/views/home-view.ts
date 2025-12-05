@@ -20,9 +20,14 @@ export class HomeView extends LitElement {
     if (this.loggedIn) {
       return html`
         <section class="home">
-          <h2>Welcome back</h2>
-          <p>Access your memories and content below.</p>
-          <iframe src="/index.html?embed=1" style="width:100%;height:70vh;border:0"></iframe>
+          <h2>Garden</h2>
+          <section class="Garden">
+            <ul>
+              <li>
+                <a href="/app/memories">Flowers</a>
+              </li>
+            </ul>
+          </section>
         </section>
       `;
     }
@@ -38,6 +43,36 @@ export class HomeView extends LitElement {
 
   static styles = css`
     .home { padding: 2rem; }
+    .Garden {
+      display: grid;
+      grid-template-rows: [start] 1fr 1fr 1fr 1fr 1fr 1fr [end];
+      gap: var(--size-spacing-small);
+    }
+    ul {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: var(--size-spacing-medium);
+      list-style-type: none;
+      padding: 0;
+    }
+    li {
+      margin: 10px 0;
+      text-align: center;
+    }
+    a {
+      font-family: var(--font-primary-body);
+      font-weight: var(--font-primary-body-weight);
+      text-decoration: none;
+      color: var(--color-text-secondary);
+      font-size: 30px;
+    }
+    h2 {
+      font-family: var(--font-primary-heading);
+      text-align: center;
+      font-weight: var(--font-primary-heading-weight);
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+    }
   `;
 }
 

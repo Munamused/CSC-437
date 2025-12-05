@@ -1,7 +1,7 @@
 import express, { Request, Response } from "express";
 import Users from "./services/user-svc";
 import users from "./routes/users";
-import memories from "./routes/memories";
+import memoryItem from "./routes/memory";
 import auth, { authenticateUser } from "./routes/auth";
 import fs from "node:fs/promises";
 import path from "path";
@@ -32,9 +32,10 @@ app.get("/hello", (req: Request, res: Response) => {
 });
 
 // Mount users API router at /api/users
-app.use("/api/users", authenticateUser, users);
-// Mount memories API router at /api/memories
-app.use("/api/memories", authenticateUser, memories);
+// /me endpoint is public, others require auth
+app.use("/api/users", users);
+// Mount memories API router at /api/memory (protected)
+app.use("/api/memory", authenticateUser, memoryItem);
 // Mount auth routes at /auth
 app.use("/auth", auth);
 

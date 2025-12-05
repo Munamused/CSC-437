@@ -1,19 +1,63 @@
-import express, { Request, Response } from "express";
+import express, { Request, Response, NextFunction } from "express";
+import jwt from "jsonwebtoken";
+import dotenv from "dotenv";
 import { User } from "../models/user";
 
 import Users from "../services/user-svc";
 
-const router = express.Router();
+dotenv.config();
 
-// GET collection
-router.get("/", (_, res: Response) => {
+const router = express.Router();
+const TOKEN_SECRET: string = process.env.TOKEN_SECRET || "NOT_A_SECRET";
+
+// Middleware to protect endpoints (same as in auth.ts)
+function protectRoute(req: Request, res: Response, next: NextFunction) {
+  const authHeader = req.headers["authorization"];
+  const token = authHeader && (authHeader as string).split(" ")[1];
+
+  if (!token) {
+    res.status(401).end();
+  } else {
+    jwt.verify(token, TOKEN_SECRET, (error, decoded) => {
+      if (decoded) next();
+      else res.status(401).end();
+    });
+  }
+}
+
+// GET /me - return the current authenticated user based on JWT token (public)
+router.get("/me", (req: Request, res: Response) => {
+  const authHeader = req.headers["authorization"];
+  const token = authHeader && (authHeader as string).split(" ")[1];
+
+  if (!token) {
+    console.log("No token provided");
+    return res.status(401).json({ authenticated: false, username: "anonymous" });
+  }
+
+  jwt.verify(token, TOKEN_SECRET, (error, decoded: any) => {
+    if (error || !decoded || !decoded.username) {
+      console.log("Invalid token");
+      return res.status(401).json({ authenticated: false, username: "anonymous" });
+    }
+    // Return authenticated user info
+    res.json({
+      authenticated: true,
+      username: decoded.username,
+      token: token
+    });
+  });
+});
+
+// GET collection (protected)
+router.get("/", protectRoute, (_, res: Response) => {
   Users.index()
     .then((list: User[]) => res.json(list))
     .catch((err) => res.status(500).send(err));
 });
 
-// GET resource
-router.get("/:userid", (req: Request, res: Response) => {
+// GET resource (protected)
+router.get("/:userid", protectRoute, (req: Request, res: Response) => {
   const { userid } = req.params;
 
   Users.get(userid)
@@ -24,8 +68,8 @@ router.get("/:userid", (req: Request, res: Response) => {
     .catch((err) => res.status(404).send(err));
 });
 
-// POST create
-router.post("/", (req: Request, res: Response) => {
+// POST create (protected)
+router.post("/", protectRoute, (req: Request, res: Response) => {
   const payload: User = req.body;
 
   Users.create(payload)
@@ -33,8 +77,8 @@ router.post("/", (req: Request, res: Response) => {
     .catch((err) => res.status(500).send(err));
 });
 
-// PUT update
-router.put("/:userid", (req: Request, res: Response) => {
+// PUT update (protected)
+router.put("/:userid", protectRoute, (req: Request, res: Response) => {
   const { userid } = req.params;
   const payload: Partial<User> = req.body;
 
@@ -46,8 +90,8 @@ router.put("/:userid", (req: Request, res: Response) => {
     .catch((err) => res.status(500).send(err));
 });
 
-// DELETE remove
-router.delete("/:userid", (req: Request, res: Response) => {
+// DELETE remove (protected)
+router.delete("/:userid", protectRoute, (req: Request, res: Response) => {
   const { userid } = req.params;
 
   Users.remove(userid)

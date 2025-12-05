@@ -2,6 +2,12 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/styles/reset.css" />
+  <link rel="stylesheet" href="/styles/tokens.css" />
+  <link rel="stylesheet" href="/styles/page.css" />
   <script type="module">
     import { define, Auth } from "@calpoly/mustang";
     import { LoginFormElement } from "/src/auth/login-form";
@@ -25,12 +31,8 @@
             <span>Password:</span>
             <input type="password" name="password" />
           </label>
-        </login-form>
-        <!-- Add a simple fallback submit button + script so the page works
-             even if the custom element isn't defined or hasn't loaded. -->
-        <div style="margin-top:0.75rem;">
           <button id="login-fallback" type="button">Sign In</button>
-        </div>
+        </login-form>
       </main>
       <p
         >Or did you want to
@@ -68,12 +70,15 @@
             const evt = new CustomEvent('auth:message', {
               bubbles: true,
               composed: true,
-              detail: ['auth/signin', { token: json.token, redirect: '/' }]
+              detail: ['auth/signin', { token: json.token, redirect: '/app' }]
             });
-            // dispatch on window so providers listening in the document catch it
-            window.dispatchEvent(evt);
-            // follow redirect (server may include one later)
-            const redirect = (json.redirect) ? json.redirect : '/';
+            // dispatch the event in several scopes so the provider picks it up
+            try { window.dispatchEvent(evt); } catch (e) {}
+            try { window.document?.dispatchEvent(evt); } catch (e) {}
+            try { if (window.top && window.top !== window) window.top.dispatchEvent(evt); } catch (e) {}
+            try { if (window.top && window.top.document) window.top.document.dispatchEvent(evt); } catch (e) {}
+            // follow redirect (server may include one later) — default to the SPA
+            const redirect = (json.redirect) ? json.redirect : '/app';
             location.href = redirect;
           } else {
             alert('Login succeeded but no token returned');

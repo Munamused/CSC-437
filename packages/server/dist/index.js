@@ -60,8 +60,9 @@ app.get("/hello", (req, res) => {
     res.send("Hello, World");
 });
 // Mount users API router at /api/users
-app.use("/api/users", auth_1.authenticateUser, users_1.default);
-// Mount memories API router at /api/memories
+// /me endpoint is public, others require auth
+app.use("/api/users", users_1.default);
+// Mount memories API router at /api/memories (protected)
 app.use("/api/memories", auth_1.authenticateUser, memories_1.default);
 // Mount auth routes at /auth
 app.use("/auth", auth_1.default);

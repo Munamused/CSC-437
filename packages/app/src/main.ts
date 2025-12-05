@@ -1,7 +1,10 @@
-import { Auth, define, History, Switch } from "@calpoly/mustang";
+import { Auth, History, Switch, Store, define } from "@calpoly/mustang";
 import { html } from "lit";
+import { Msg } from "./messages";
+import { Model, init } from "./model";
+import update from "./update";
 import TheGardenHeader from "./components/thegarden-header";
-import HomeView from "./views/home-view";
+import { HomeView } from "./views/home-view";
 
 const routes = [
   {
@@ -16,7 +19,6 @@ const routes = [
     path: "/app/memories",
     view: () => html`
       <section class="memories">
-        <h2>Memories</h2>
         <iframe src="/memories.html?embed=1" style="width:100%;height:80vh;border:0"></iframe>
       </section>
     `
@@ -25,7 +27,6 @@ const routes = [
     path: "/app/partner1",
     view: () => html`
       <section class="partner">
-        <h2>Partner 1</h2>
         <iframe src="/partner1.html?embed=1" style="width:100%;height:80vh;border:0"></iframe>
       </section>
     `
@@ -34,14 +35,15 @@ const routes = [
     path: "/app/partner2",
     view: () => html`
       <section class="partner">
-        <h2>Partner 2</h2>
         <iframe src="/partner2.html?embed=1" style="width:100%;height:80vh;border:0"></iframe>
       </section>
     `
   },
   {
     path: "/app",
-    view: () => html`<home-view></home-view>`
+    view: () => html`
+        <home-view></home-view>
+    `
   },
   {
     path: "/",
@@ -55,6 +57,13 @@ define({
   "mu-switch": class AppSwitch extends Switch.Element {
     constructor() {
       super(routes, "thegarden:history", "thegarden:auth");
+    }
+  },
+  "mu-store": class AppStore
+    extends Store.Provider<Model, Msg>
+  {
+    constructor() {
+      super(update, init, "blazing:auth");
     }
   },
   "thegarden-header": TheGardenHeader,

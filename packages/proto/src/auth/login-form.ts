@@ -123,6 +123,8 @@ export class LoginFormElement extends AuthConsumer {
       })
       .then((json: object) => {
           const { token } = json as { token: string };
+          // persist token to localStorage so other windows/providers can pick it up
+          try { localStorage.setItem('thegarden:token', token); } catch (e) {}
           const customEvent = new CustomEvent(
           'auth:message', {
           bubbles: true,
@@ -134,6 +136,8 @@ export class LoginFormElement extends AuthConsumer {
           });
           console.log("dispatching message", customEvent);
           this.dispatchEvent(customEvent);
+          // also try to inform the top-level window in case the component is inside an iframe
+          try { if (window.top && window.top !== window) window.top.dispatchEvent(customEvent); } catch (e) {}
       })
       .catch((error: Error) => {
           console.log(error);

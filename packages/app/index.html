@@ -11,18 +11,91 @@
     <meta name="viewport" content="width=device-width,initial-scale=1" />
   </head>
   <body>
-    <mu-history provides="thegarden:history">
-      <mu-auth
-        provides="thegarden:auth"
-        redirect="/login.html"
-        storage="local">
-        <article class="page">
-          <thegarden-header></thegarden-header>
-          <mu-switch></mu-switch>
-        </article>
+      <mu-auth provides="thegarden:auth">
+        <mu-history provides="thegarden:history">
+          <mu-auth provides="thegarden:auth" redirect="/login.html">
+            <article class="page">
+              <thegarden-header></thegarden-header>
+              <mu-switch></mu-switch>
+            </article>
+          </mu-auth>
+        </mu-history>
       </mu-auth>
-    </mu-history>
 
-    <script type="module" src="/src/main.ts"></script>
+    <script type="module">
+      import "/src/main.ts";
+
+      // Get the current token from localStorage (if any)
+      function getStoredToken() {
+        try {
+          return localStorage.getItem('thegarden:token');
+        } catch (e) {
+          return null;
+        }
+      }
+
+      // Function to update the auth provider with user info
+      async function updateAuthWithToken(token) {
+        if (!token) return;
+        
+        try {
+          // Fetch user info from the server
+          const res = await fetch('/api/users/me', {
+            headers: { 'Authorization': `Bearer ${token}` }
+          });
+          
+          if (res.ok) {
+            const userInfo = await res.json();
+            console.log('User info fetched:', userInfo);
+            
+            // Find and update the header component
+            const header = document.querySelector('thegarden-header');
+            if (header && typeof header.updateAuthState === 'function') {
+              console.log('Calling header.updateAuthState with:', userInfo);
+              header.updateAuthState(userInfo.authenticated, userInfo.username, token);
+            }
+          } else {
+            // Token is invalid (e.g., server restarted), clear it
+            console.log('Token validation failed, clearing localStorage');
+            try {
+              localStorage.removeItem('thegarden:token');
+            } catch (e) {}
+          }
+        } catch (err) {
+          console.error('Failed to fetch user info:', err);
+          // Clear token on error
+          try {
+            localStorage.removeItem('thegarden:token');
+          } catch (e) {}
+        }
+      }
+
+      // Check if we have a stored token and update auth state on load
+      const storedToken = getStoredToken();
+      if (storedToken) {
+        console.log('Found stored token, updating auth');
+        // Use setTimeout to ensure mu-auth and thegarden-header are initialized
+        setTimeout(() => {
+          updateAuthWithToken(storedToken);
+        }, 100);
+      }
+
+      // Listen for login events from login form - only on initial signin event
+      let isProcessing = false;
+      window.addEventListener('auth:message', async (evt) => {
+        const [action, detail] = evt.detail || [];
+        
+        if (action === 'auth/signin' && detail?.token && !isProcessing) {
+          isProcessing = true;
+          console.log('Auth signin message received with token');
+          await updateAuthWithToken(detail.token);
+          isProcessing = false;
+        }
+      });
+
+      if (typeof TheGardenHeader.initializeOnce === 'function') {
+        TheGardenHeader.initializeOnce();
+      }
+    </script>
   </body>
 </html>

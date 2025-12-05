@@ -91,6 +91,29 @@ a {
     color: var(--color-text-secondary);
     font-size: 30px;
 }
+login-form {
+    display: block;
+    margin: 2rem auto;
+    padding: 2rem;
+    max-width: 400px;
+    justify-content: center;
+    border-radius: var(--size-border-radius-medium);
+    background-color: var(--color-secondary-background);
+}
+label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-family: var(--font-primary-body);
+    font-weight: var(--font-primary-body-weight);
+}
+button {
+    font-family: var(--font-primary-body);
+    font-weight: var(--font-primary-body-weight);
+    padding: 0.5rem 1rem;
+    border: 1px solid var(--color-border-primary);
+    border-radius: var(--size-border-radius-small);
+    cursor: pointer;
+}
 
 /* Grid layout for memory cards */
 .memories-grid {
