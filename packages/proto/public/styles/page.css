@@ -13,7 +13,7 @@ body {
 }
 .Garden {
     display: grid;
-    grid-template-rows: [start] 1fr 1fr 1fr 1fr 1fr 1fr [end];
+    grid-template-rows: [start] 1fr 1fr 1fr [end];
     gap: var(--size-spacing-small);
 }
 .icon-logo {
@@ -102,7 +102,6 @@ login-form {
 }
 label {
     display: block;
-    margin-bottom: 0.5rem;
     font-family: var(--font-primary-body);
     font-weight: var(--font-primary-body-weight);
 }
@@ -113,6 +112,19 @@ button {
     border: 1px solid var(--color-border-primary);
     border-radius: var(--size-border-radius-small);
     cursor: pointer;
+}
+footer {
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
+    font-family: var(--font-primary-display);
+    text-align: center;
+    padding: 1rem;
+    background-color: var(--color-secondary-background);
+    color: var(--color-text-secondary);
+    position: fixed;
+    bottom: 0;
+    left: 0;
 }
 
 /* Grid layout for memory cards */

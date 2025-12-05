@@ -5,6 +5,8 @@ import { Model, init } from "./model";
 import update from "./update";
 import TheGardenHeader from "./components/thegarden-header";
 import { HomeViewElement } from "./views/home-view";
+import { MemoriesViewElement } from "./views/memories-view";
+import { MemoryEditElement } from "./edits/memories-edit";
 
 const routes = [
   {
@@ -16,11 +18,21 @@ const routes = [
     `
   },
   {
+    path: "/app/memories/new",
+    view: () => html`
+      <memory-edit memory-id="new"></memory-edit>
+    `
+  },
+  {
+    path: "/app/memories/:id/edit",
+    view: (params: Record<string, string>) => html`
+      <memory-edit memory-id=${params.id}></memory-edit>
+    `
+  },
+  {
     path: "/app/memories",
     view: () => html`
-      <section class="memories">
-        <iframe src="/memories.html?embed=1" style="width:100%;height:80vh;border:0"></iframe>
-      </section>
+      <memories-view></memories-view>
     `
   },
   {
@@ -59,13 +71,13 @@ define({
       super(routes, "thegarden:history", "thegarden:auth");
     }
   },
-  "mu-store": class AppStore
-    extends Store.Provider<Model, Msg>
-  {
+  "mu-store": class AppStore extends Store.Provider<Model, Msg> {
     constructor() {
       super(update, init, "thegarden:auth");
     }
   },
   "thegarden-header": TheGardenHeader,
-  "home-view": HomeViewElement
+  "home-view": HomeViewElement,
+  "memories-view": MemoriesViewElement,
+  "memory-edit": MemoryEditElement
 });

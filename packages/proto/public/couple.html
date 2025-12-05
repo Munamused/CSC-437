@@ -43,6 +43,17 @@
                     <a href="partner2.html">partner2</a>
             </ul>
         </section>
+        <footer>
+            <label>
+                <select id="color-mode-toggle">
+                    <option value="default">Default Mode</option>
+                    <option value="pink">Pink Mode</option>
+                    <option value="blue">Blue Mode</option>
+                    <option value="dark">Dark Mode</option>
+                </select>
+                Color Mode
+            </label>
+        </footer>
     </body>
     <script src="/js_files/colormode.js"></script>
         <script>
@@ -52,6 +63,8 @@
                 if (params.get('embed') === '1') {
                     const hdr = document.querySelector('header');
                     if (hdr) hdr.style.display = 'none';
+                    const ftr = document.querySelector('footer');
+                    if (ftr) ftr.style.display = 'none';
                     document.body.style.marginTop = '0';
 
                     // Rewrite internal links so embedded navigation preserves ?embed=1

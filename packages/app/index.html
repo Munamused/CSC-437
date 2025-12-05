@@ -19,6 +19,17 @@
                 <thegarden-header></thegarden-header>
                 <mu-switch></mu-switch>
               </article>
+              <footer>
+                <label>
+                  <select id="color-mode-toggle">
+                    <option value="default">Default Mode</option>
+                    <option value="pink">Pink Mode</option>
+                    <option value="blue">Blue Mode</option>
+                    <option value="dark">Dark Mode</option>
+                  </select>
+                  Color Mode
+                </label>
+              </footer>
             </mu-auth>
           </mu-store>
         </mu-history>
@@ -99,5 +110,6 @@
         TheGardenHeader.initializeOnce();
       }
     </script>
+    <script src="/js_files/colormode.js"></script>
   </body>
 </html>

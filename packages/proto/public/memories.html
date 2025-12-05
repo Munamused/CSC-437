@@ -48,6 +48,17 @@
         </section>
         <script type="module" src="/js_files/memory-card.js"></script>
     </body>
+    <footer>
+        <label>
+            <select id="color-mode-toggle">
+                <option value="default">Default Mode</option>
+                <option value="pink">Pink Mode</option>
+                <option value="blue">Blue Mode</option>
+                <option value="dark">Dark Mode</option>
+            </select>
+            Color Mode
+        </label>
+    </footer>
     <script src="/js_files/colormode.js"></script>
     <script type="module">
         import { define } from "@calpoly/mustang";
@@ -62,6 +73,8 @@
             if (new URLSearchParams(window.location.search).get('embed') === '1') {
                 const hdr = document.querySelector('header');
                 if (hdr) hdr.style.display = 'none';
+                const ftr = document.querySelector('footer');
+                if (ftr) ftr.style.display = 'none';
                 document.body.style.marginTop = '0';
                 // rewrite internal links to keep embedding
                 const anchors = Array.from(document.querySelectorAll('a[href]'));

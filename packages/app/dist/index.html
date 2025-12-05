@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="/styles/tokens.css" />
     <link rel="stylesheet" href="/styles/page.css" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <script type="module" crossorigin src="/assets/index-CQmc5ljy.js"></script>
+    <script type="module" crossorigin src="/assets/index-Dcso81OH.js"></script>
   </head>
   <body>
       <mu-auth provides="thegarden:auth">
@@ -20,10 +20,22 @@
                 <thegarden-header></thegarden-header>
                 <mu-switch></mu-switch>
               </article>
+              <footer>
+                <label>
+                  <select id="color-mode-toggle">
+                    <option value="default">Default Mode</option>
+                    <option value="pink">Pink Mode</option>
+                    <option value="blue">Blue Mode</option>
+                    <option value="dark">Dark Mode</option>
+                  </select>
+                  Color Mode
+                </label>
+              </footer>
             </mu-auth>
           </mu-store>
         </mu-history>
       </mu-auth>
 
+    <script src="/js_files/colormode.js"></script>
   </body>
 </html>
